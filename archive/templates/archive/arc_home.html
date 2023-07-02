@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+<head>
+
+<style>
+   
+  .top-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: white;
+    padding: 5px;
+    border-radius: 20px;
+    border: 10px solid black;
+    box-shadow: 0 0 10px rgba (0, 0, 0, .5); 
+  }
+
+    .genus-container {
+    display: flex; /* Displays the items in a row. */
+    flex-direction: row; /* Defines the layout's orientation. */
+    justify-content: space-evenly; /* assign even spacing to both ends of the flexbox and between its items. */
+    align-items: center; /* Centers the items vertically */
+    padding: 10px;
+    position: relative;
+  }
+
+  .genus-item {
+    text-align: center; /* Centers the content within each item */
+    margin: 0 5px; /* Adds some spacing between items */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 8px;
+    border: 10px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+  }
+
+  .genus-item img {
+    width: 100px; /* Adjust the width of the image as needed */
+    height: 100px; /* Adjust the height of the image as needed */
+  }
+
+  .genus-item span {
+  font-family: Courier, monospace;
+  font-size: small;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: black;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.arrow:hover {
+  background-color: #333;
+}
+
+.arrow-left {
+  left: 10px;
+}
+
+.arrow-right {
+  right: 10px;
+}
+
+body {
+      background-color: rgb(102, 153, 255);
+    }
+
+.logo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: .5px;
+  border-radius: 5%;
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  border: 10px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+}
+
+.search-container form {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input[type="text"], 
+.search-container button {
+  margin-left: 5px;
+  background-color: white;
+  color: black;
+  border: none;
+}
+
+.search-container input[type="text"] {
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.search-container button {
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 10px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+}
+
+.title {
+  color: black;
+  font-weight: bold;
+  font-family: 'Arial Narrow Bold', sans-serif;
+  justify-content: space-between;
+  text-align: center;
+  background-color: white;
+  padding: 10px;
+  border-radius: 20px;
+  border: 10px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+  margin-bottom: 10px;
+}
+
+.title-search-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto;
+  margin-left: 275px;
+}
+
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+  position: absolute;
+  top: 45px;
+  right: 35px;
+}
+
+.bar {
+  width: 100%;
+  height: 2px;
+  margin: 2px 0;
+  background-color: white;
+  border-radius: 20px;
+  border: 10px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+}
+
+.hamburger-menu-container {
+  display: none;
+  position: absolute;
+  top: 45px;
+  right: 10px;
+  background-color: gray;
+  padding: 5px;
+  border-radius: 20px;
+  border: 10px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+  z-index: 1;
+  overflow: hidden;
+  transition: all .3s ease;
+  max-width: 92%;
+ margin-right: 4.5%;
+ top: 2vh;
+}
+
+.menu-list{
+  display: flex;
+  flex-direction: row;
+}
+
+.menu-list li {
+  margin-bottom: 10px;
+}
+
+.menu-list li a {
+  display: block;
+  text-decoration:underline;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.menu-list li a:hover {
+  color: rgb(102, 153, 255);
+}
+
+.hamburger-menu-container:hover {
+  width: 95%;
+}
+
+
+.hamburger-menu-container:hover .menu-list li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: white;
+  padding: 5px;
+  border-radius: 20px;
+  border: 10px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+}
+
+.login-container {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+  margin-top: auto;
+  background-color: white;
+  justify-content: flex-end;
+}
+
+#login-error-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+#login-error-msg {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #8a0000 ;
+  border: 1px solid #8a0000;
+  background-color: #e58f8f;
+  opacity: 0;
+}
+
+#login-error-msg-next-ln {
+  display: block;
+}
+
+#login-form {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 10px;
+}
+
+.login-form-field::placeholder {
+  color: #3a3a3a;
+}
+
+.login-form-field {
+  background-color: white;
+  padding: 5px;
+  border-radius: 20px;
+  border: 10px solid black;
+  box-shadow: 0 0 10px rgba (0, 0, 0, .5); 
+  width: 200px;
+  margin: 1%;
+}
+
+#login-form-submit, #login-form-register {
+  font-weight: bold;
+  cursor: pointer;
+  background-color: white;
+  padding: 5px;
+  border-radius: 20px;
+  border: 10px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+  margin-left: 10px;
+  flex: 1;
+  margin-top: 10px;
+  width: 100%;
+}
+
+#login-form-submit {
+  margin-bottom: 5px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: center;
+}
+
+</style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>The Cultivator's Archives | B.L.U. Thumb Mycology</title>
+
+</head>
+
+<body>
+
+  <div class="top-container">
+    <div class="logo-container">
+      <img src="/media/images/blu_thumb_mycology_logo.jpg" alt="B.L.U. Thumb Mycology Logo">
+    </div>
+    <div class="title-search-container">
+      <h1 class="title">The Cultivator's Archives</h1>
+      <div class="search-container">
+        <form action="/search/" method="GET">
+          <input type="text" name="query" placeholder="Search...">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+    <div class="hamburger-menu" onmouseenter="toggleMenu()">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div> 
+    <div class="hamburger-menu-container" id="menuContainer">
+      <ul class="menu-list">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Archives</a></li>
+        <li><a href="#">Forum</a></li>
+        <li><a href="#">Chat</a></li>
+      </ul> 
+    </div>
+    <div class="login-container">
+      <div id="login-error-container">
+        <p id="login-error-msg">E-mail and/or password<span id="login-error-msg-next-ln">are incorrect!</span></p>
+      </div>
+      <form id="login-form">
+        <input type="text" name="E-mail" id="e-mail-field" class="login-form-field" placeholder="E-mail">
+        <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+        <div class="button-container">
+          <input type="submit" value="Log-In" id="login-form-submit">
+          <input type="submit" value="Register" id="login-form-register">
+        </div>
+      </form>
+    </div>
+  </div>
+    <div class="genus-container">
+      <div class="arrow arrow-left" onclick="scrollGenus ('left')">&lt;</div>
+        {% for genus in genus_list %}
+            <div class="genus-item">
+                <img src="{{ genus.image.url }}" alt="{{ genus.genus_name }}" />
+                <span>{{ genus.genus_name }}</span>
+            </div>
+        {% endfor %}
+      <div class="arrow arrow-right" onclick="scrollGenus('right')">&gt;</div>
+    </div>  
+    
+    <div class="content-container">
+    </div>
+
+</body>
+
+</html>
+
+  
+      <script>
+
+        function scrollGenus(direction) {
+          const genusContainer = document.querySelector('.genus-container');
+          const scrollAmount = 200;
+
+          if (direction === 'left') {
+            genusContainer.scrollLeft -=scrollAmount;
+          } else if (direction === 'right') {
+            genusContainer.scrollLeft +=scrollAmount;
+            }
+          }
+    
+        function toggleMenu() {
+          const menuContainer = document.querySelector('.hamburger-menu-container');
+          const hamburgerBars = document.querySelectorAll('.bar');
+
+          hamburgerBars.forEach(bar => {
+            bar.addEventListener('mouseenter', function() {
+              menuContainer.style.width = '95%';
+              menuContainer.style.display = 'flex';
+              menuContainer.style.right = '10px';
+              hamburgerBars.forEach(bar => {
+                bar.style.right = '210px';
+              });
+            });
+          });
+
+          menuContainer.addEventListener('mouseleave', function() {
+            menuContainer.style.width = '0px';
+            menuContainer.style.display = 'none';
+            menuContainer.style.right = '10px';
+            hamburgerBars.forEach(bar => {
+              bar.style.right = '35px';
+            });
+          });
+        }
+    
+
+
+    </script>
