@@ -25,6 +25,8 @@
     align-items: center; /* Centers the items vertically */
     padding: 10px;
     position: relative;
+    overflow: hidden;
+    flex-wrap: nowrap;
   }
 
   .genus-item {
@@ -37,6 +39,35 @@
     padding: 8px;
     border: 10px solid black;
     box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+    animation: none;
+  }
+
+  .genus-container.slide-left .genus-item {
+      animation: slideLeftAnimation 5s linear infinite;
+  }
+
+  .genus-container.slide-right .genus-item {
+      animation: slideRightAnimation 5s linear infinite;
+  }
+
+  @keyframes slideLeftAnimation {
+    0% {
+      transform: translateX(0%);
+    }
+
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes slideRightAnimation {
+    0% {
+      transform: translateX(0%);
+    }
+
+    100% {
+      transform: translateX(100%);
+    }
   }
 
   .genus-item img {
@@ -69,11 +100,12 @@
     cursor: pointer;
     font-size: 20px;
     transition: background-color 0.3s ease;
+    z-index: 2;
 }
 
 .arrow:hover {
   background-color: #333;
-}
+} 
 
 .arrow-left {
   left: 10px;
@@ -373,38 +405,70 @@ body {
       </form>
     </div>
   </div>
-    <div class="genus-container">
-      <div class="arrow arrow-left" onclick="scrollGenus ('left')">&lt;</div>
+  <div class="arrow arrow-left" onmouseenter="startScroll('left')" onmouseleave="stopScroll()">&lt;</div>  
+  <div class="arrow arrow-right" onmouseenter="startScroll('right')" onmouseleave="stopScroll()">&gt;</div>
+  <div class="genus-container">
         {% for genus in genus_list %}
             <div class="genus-item">
                 <img src="{{ genus.image.url }}" alt="{{ genus.genus_name }}" />
                 <span>{{ genus.genus_name }}</span>
             </div>
         {% endfor %}
-      <div class="arrow arrow-right" onclick="scrollGenus('right')">&gt;</div>
     </div>  
-    
-    <div class="content-container">
-    </div>
+  <div class="content-container">
+  </div>
 
 </body>
 
 </html>
 
-  
-      <script>
+<script>
 
-        function scrollGenus(direction) {
-          const genusContainer = document.querySelector('.genus-container');
-          const scrollAmount = 200;
+  let isScrolling = false;
+  let scrollAmount = 5; // Adjust the scroll amount as needed
+  let scrollSpeed = 40; // Adjust the scroll speed (interval) as needed
 
-          if (direction === 'left') {
-            genusContainer.scrollLeft -=scrollAmount;
-          } else if (direction === 'right') {
-            genusContainer.scrollLeft +=scrollAmount;
-            }
-          }
-    
+  function startScroll(direction) {
+    if (isScrolling) return;
+    isScrolling = true;
+    const genusContainer = document.querySelector('.genus-container');
+    clearInterval(scrollInterval);
+
+    if (direction === 'left') {
+      scrollInterval = setInterval(() => {
+        genusContainer.scrollLeft -= scrollAmount;
+        if (genusContainer.scrollLeft <= 0) {
+          genusContainer.scrollLeft = genusContainer.scrollWidth;
+        }
+      }, scrollSpeed);
+    } else if (direction === 'right') {
+      scrollInterval = setInterval(() => {
+        genusContainer.scrollLeft += scrollAmount;
+        if (genusContainer.scrollLeft >= genusContainer.scrollWidth - genusContainer.clientWidth) {
+          genusContainer.scrollLeft = 0;
+        }
+      }, scrollSpeed);
+    }
+  }
+
+  const arrows = document.querySelectorAll('.arrow');
+  arrows.forEach(arrow => {
+    arrow.addEventListener('mouseenter', function() {
+      const genusContainer = document.querySelector('.genus-container');
+      if (arrow.classList.contains('arrow-left')) {
+        genusContainer.classList.add('slide-left');
+        startScroll('left');
+      } else if (arrow.classList.contains('arrow-right')) {
+        genusContainer.classList.add('slide-right');
+        startScroll('right');
+      }
+    });
+    arrow.addEventListener('mouseleave', function() {
+      const genusContainer = document.querySelector('.genus-container');
+      genusContainer.classList.remove('slide-left', 'slide-right');
+      stopScroll();
+    });
+  });
         function toggleMenu() {
           const menuContainer = document.querySelector('.hamburger-menu-container');
           const hamburgerBars = document.querySelectorAll('.bar');
