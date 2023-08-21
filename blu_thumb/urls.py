@@ -18,10 +18,20 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from users import views as users_views
+from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
+from archive import views as archive_views
 
 urlpatterns = [
     path("archive/", include("archive.urls")),
-    path('admin/', admin.site.urls)
+    path('admin/', admin.site.urls),
+    path('register/',users_views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+    path('terms_and_privacy/', TemplateView.as_view(template_name='terms_and_privacy.html'), name='terms_and_privacy'),
+    path('archive_home/', archive_views.arc_home, name='archive_home'),
+   
 ]
 
 if settings.DEBUG:

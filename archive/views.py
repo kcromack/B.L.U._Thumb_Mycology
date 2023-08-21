@@ -24,3 +24,6 @@ def search(request):
     }
 
     return render(request, 'search_results.html', context)
+
+def arc_home(request):
+    return render(request, 'archive/arc_home.html')

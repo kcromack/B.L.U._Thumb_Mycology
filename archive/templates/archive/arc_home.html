@@ -3,6 +3,12 @@
 <html lang="en-us">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Cultivator's Archives | B.L.U. Thumb Mycology</title>
+
+</head>
 
 <style>
    
@@ -215,7 +221,7 @@ body {
   position: absolute;
   top: 45px;
   right: 10px;
-  background-color: gray;
+  background-color: rgb(102, 153, 255);
   padding: 5px;
   border-radius: 20px;
   border: 10px solid black;
@@ -356,67 +362,68 @@ body {
 
 </style>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>The Cultivator's Archives | B.L.U. Thumb Mycology</title>
-
-</head>
-
 <body>
-
-  <div class="top-container">
-    <div class="logo-container">
-      <img src="/media/images/blu_thumb_mycology_logo.jpg" alt="B.L.U. Thumb Mycology Logo">
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
     </div>
-    <div class="title-search-container">
-      <h1 class="title">The Cultivator's Archives</h1>
-      <div class="search-container">
-        <form action="/search/" method="GET">
-          <input type="text" name="query" placeholder="Search...">
-          <button type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-    <div class="hamburger-menu" onmouseenter="toggleMenu()">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div> 
-    <div class="hamburger-menu-container" id="menuContainer">
-      <ul class="menu-list">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Archives</a></li>
-        <li><a href="#">Forum</a></li>
-        <li><a href="#">Chat</a></li>
-      </ul> 
-    </div>
-    <div class="login-container">
-      <div id="login-error-container">
-        <p id="login-error-msg">E-mail and/or password<span id="login-error-msg-next-ln">are incorrect!</span></p>
-      </div>
-      <form id="login-form">
-        <input type="text" name="E-mail" id="e-mail-field" class="login-form-field" placeholder="E-mail">
-        <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
-        <div class="button-container">
-          <input type="submit" value="Log-In" id="login-form-submit">
-          <input type="submit" value="Register" id="login-form-register">
-        </div>
+    {% endfor %}
+</div>
+{% endif %}
+<div class="top-container">
+  <div class="logo-container">
+    <img src="/media/images/blu_thumb_mycology_logo.jpg" alt="B.L.U. Thumb Mycology Logo">
+  </div>
+  <div class="title-search-container">
+    <h1 class="title">The Cultivator's Archives</h1>
+    <div class="search-container">
+      <form action="/search/" method="GET">
+        <input type="text" name="query" placeholder="Search...">
+        <button type="submit">Search</button>
       </form>
     </div>
   </div>
-  <div class="arrow arrow-left" onmouseenter="startScroll('left')" onmouseleave="stopScroll()">&lt;</div>  
-  <div class="arrow arrow-right" onmouseenter="startScroll('right')" onmouseleave="stopScroll()">&gt;</div>
-  <div class="genus-container">
-        {% for genus in genus_list %}
-            <div class="genus-item">
-                <img src="{{ genus.image.url }}" alt="{{ genus.genus_name }}" />
-                <span>{{ genus.genus_name }}</span>
-            </div>
-        {% endfor %}
-    </div>  
-  <div class="content-container">
+  <div class="hamburger-menu" onmouseenter="toggleMenu()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div> 
+  <div class="hamburger-menu-container" id="menuContainer">
+    <ul class="menu-list">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Archives</a></li>
+      <li><a href="#">Forum</a></li>
+      <li><a href="#">Chat</a></li>
+    </ul> 
   </div>
+  <div class="login-container">
+    <div id="login-error-container">
+      <p id="login-error-msg">E-mail and/or password<span id="login-error-msg-next-ln">are incorrect!</span></p>
+    </div>
+    <form id="login-form">
+      <input type="text" name="E-mail" id="e-mail-field" class="login-form-field" placeholder="E-mail">
+      <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+      <div class="button-container">
+        <input type="submit" value="Log-In" id="login-form-submit">
+        <input type="submit" value="Register" id="login-form-register">
+      </div>
+    </form>
+  </div>
+</div>
+<div class="arrow arrow-left" onmouseenter="startScroll('left')" onmouseleave="stopScroll()">&lt;</div>  
+<div class="arrow arrow-right" onmouseenter="startScroll('right')" onmouseleave="stopScroll()">&gt;</div>
+<div class="genus-container">
+      {% for genus in genus_list %}
+          <div class="genus-item">
+              <img src="{{ genus.image.url }}" alt="{{ genus.genus_name }}" />
+              <span>{{ genus.genus_name }}</span>
+          </div>
+      {% endfor %}
+  </div>  
+<div class="content-container">
+</div>
 
 </body>
 
@@ -493,7 +500,24 @@ body {
             });
           });
         }
+  const loginForm = document.getElementById("login-form");
+  const loginButton = document.getElementById("login-form-submit");
+  const loginErrorMsg = document.getElementById("login-error-msg");
+  
+  loginButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    const username = loginForm.username.value;
+    const password = loginForm.password.value;
+
+    if (username === "user" && password === "web_dev") {
+      alert("You have successfully loggin in.");
+      location.reload();
+    } else {
+      loginErrorMsg.style.opacity = 1;
+    }
+  })
+        
     
 
 
-    </script>
+</script>
