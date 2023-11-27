@@ -18,20 +18,23 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-from users import views as users_views
+from mycospace import views
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
-from archive import views as archive_views
+from archives import views as archives_views
+from django.contrib.auth.decorators import login_required
+from .views import test_base
 
 urlpatterns = [
-    path("archive/", include("archive.urls")),
+    path("archives/", include("archives.urls")),
     path('admin/', admin.site.urls),
-    path('register/',users_views.register, name='register'),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path('register/', views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('terms_and_privacy/', TemplateView.as_view(template_name='terms_and_privacy.html'), name='terms_and_privacy'),
-    path('archive_home/', archive_views.arc_home, name='archive_home'),
-   
+    path('mycospace/', include('mycospace.urls')),   
+    path('test/base/', test_base, name='test_base'),
 ]
 
 if settings.DEBUG:
