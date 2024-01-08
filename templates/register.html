@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+
+{% block title %}Register | B.L.U. Thumb Mycology{% endblock %}
+
+{% block page_title %}Register{% endblock %}
+
+{% block content %}
+
+    <style>
+        
+        body {
+            background-color: rgb(102, 153, 255);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content-text {
+            color: black;
+            font-weight: bold;
+            font-family: 'Arial Narrow Bold', sans-serif;
+            text-align: center;
+            margin-top: 1%;
+        }
+
+        
+        .field-container {
+            /* Viewport Units (vw, vh, vmin, vmax): */
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            background-color: white;
+            padding: .2vw;
+            border-radius: 20px;
+            border: 10px solid black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+            flex: 1;
+            margin-top: 3vh;
+            max-width: 60vw;
+        }
+
+                
+        .field-container label {
+            margin-bottom: 5px;
+        }
+
+        .field-container .form-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .field-container .form-group .radio-inline {
+            margin-right: 15px;
+        }
+
+        .terms-container {
+            text-align: center;
+            margin-top: 5%;
+        }
+
+        .check-terms {
+            display: flex;
+            align-items: center;
+        }
+
+        .check-label {
+            margin-left: 4%;
+        }
+
+        .button-register {
+            cursor: pointer;
+        }
+
+        .content-container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            background-color: white;
+            padding: 5px;
+            border-radius: 20px;
+            border: 10px solid black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            margin-top: 5px;
+        }
+
+    </style>
+
+    <h3 class="content-text">Become a</h3>
+    <h2 class="content-text" style="text-decoration: underline">B.L.U. Thumb Mycology Member!</h2>
+    <form class="login-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    <div class="row">
+    <div class="col-md-12">
+    {% if form.errors %}
+    {% for field in form %}
+    {% for error in field.errors %}
+    <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+    <strong>{{ field|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+    <div class="field-container">
+    <div class="form-group position-relative">
+    {{form.email}}
+    </div>
+    {% if form.email.errors %}
+    {% for error in form.email.errors %}
+    <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+    <div class="field-container">
+    <div class="form-group position-relative">
+    {{form.first_name}}
+    </div>
+    {% if form.first_name.errors %}
+    {% for error in form.first_name.errors %}
+    <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+    <div class="field-container">
+    <div class="form-group position-relative">
+    {{form.last_name}}
+    </div>
+    {% if form.last_name.errors %}
+    {% for error in form.last_name.errors %}
+    <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+    <div class="field-container">
+    <div class="form-group position-relative">
+    {{form.username}}
+    </div>
+    {% if form.username.errors %}
+    {% for error in form.username.errors %}
+    <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+    <div class="field-container">
+    <div class="form-group position-relative">
+    {{form.password1}}
+    </div>
+    {% if form.password1.errors %}
+    {% for error in form.password1.errors %}
+    <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+    <div class="field-container">
+    <div class="form-group position-relative">
+    {{form.password2}}
+    </div>
+    {% if form.password2.errors %}
+    {% for error in form.password2.errors %}
+    <div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+    <div class="field-container">
+    <label for="{{ form.avatar.id_for_label }}">Upload your avatar:</label>
+    <div class="form-group position-relative">
+        {{ form.avatar }}
+    </div>
+    {% if form.avatar.errors %}
+        {% for error in form.avatar.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+    <div class="field-container">
+    <label for="{{ form.cultivator.id_for_label }}">Are you ACTIVELY cultivating?</label>
+    <div class="form-group position-relative">
+        {{ form.cultivator }}
+    </div>
+    {% if form.cultivator.errors %}
+        {% for error in form.cultivator.errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+    <div class="terms-container">
+    <label class="check-terms">
+        {{ form.check }}
+        <span class="check-label">I have read, understood, and agree</span>
+    </label>
+    <p>
+        to the
+        <a href="{% url 'terms_and_privacy' %}" target="_blank" style="text-decoration: underline;">Terms of Use and Privacy Policy</a>.
+    </p>
+    <button class="title button-register" type="submit">Register</button>
+    </div>
+    <div class="mx-auto">
+    <p class="mb-0 mt-3">
+        <small class="text-dark mr-2">Already have an account ?</small>
+        <a href="{% url 'login' %}" class="text-dark font-weight-bold">Log-in</a>
+    </p>
+    </div>
+    </form>
+
+{% endblock %}

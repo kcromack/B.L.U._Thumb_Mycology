@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from archives import views as archives_views
 from django.contrib.auth.decorators import login_required
-from .views import test_base
+from .views import test_base, test_myco_base
 
 urlpatterns = [
     path("archives/", include("archives.urls")),
@@ -35,6 +35,7 @@ urlpatterns = [
     path('terms_and_privacy/', TemplateView.as_view(template_name='terms_and_privacy.html'), name='terms_and_privacy'),
     path('mycospace/', include('mycospace.urls')),   
     path('test/base/', test_base, name='test_base'),
+    path('test/myco_base/', test_myco_base, name='test_myco_base'),
 ]
 
 if settings.DEBUG:

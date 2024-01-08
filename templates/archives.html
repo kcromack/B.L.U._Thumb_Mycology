@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %}The Cultivator's Archives | B.L.U. Thumb Mycology{% endblock %}
+
+{% block page_title %}The Cultivator's Archives{% endblock %}
+
+{% block content %}
+  
+  <style>
+    
+    .genus-container {
+      display: flex; /* Displays the items in a row. */
+      flex-direction: row; /* Defines the layout's orientation. */
+      justify-content: space-evenly; /* assign even spacing to both ends of the flexbox and between its items. */
+      align-items: center; /* Centers the items vertically */
+      padding: 10px;
+      position: relative;
+      overflow: hidden;
+      flex-wrap: nowrap;
+    }
+
+    .genus-item {
+      text-align: center; 
+      margin: 0 5px; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: white;
+      padding: 8px;
+      border: 10px solid black;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .5); 
+      animation: none;
+    }
+
+    .genus-container.slide-left .genus-item {
+      animation: slideLeftAnimation 5s linear infinite;
+    }
+
+    .genus-container.slide-right .genus-item {
+      animation: slideRightAnimation 5s linear infinite;
+    }
+
+    @keyframes slideLeftAnimation {
+      0% {
+        transform: translateX(0%);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    @keyframes slideRightAnimation {
+      0% {
+        transform: translateX(0%);
+      }
+
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    .genus-item img {
+      width: 100px; 
+      height: 100px; 
+    }
+
+    .genus-item span {
+      font-family: Courier, monospace;
+      font-size: small;
+      font-style: italic;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: black;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      background-color: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      transition: background-color 0.3s ease;
+      z-index: 2;
+    }
+
+    .arrow:hover {
+      background-color: #333;
+    } 
+
+    .arrow-left {
+      left: 10px;
+    }
+
+    .arrow-right {
+      right: 10px;
+    }
+
+
+  </style>
+
+  <div class="genus-container">
+    {% for genus in genus_list %}
+        <div class="genus-item">
+            <img src="{{ genus.image.url }}" alt="{{ genus.genus_name }}">
+            <span>{{ genus.genus_name }}</span>
+        </div>
+    {% endfor %}
+  </div>  
+
+  <div class="arrow arrow-left" onmouseenter="startScroll('left')" onmouseleave="stopScroll()">&lt;
+  </div>  
+  <div class="arrow arrow-right" onmouseenter="startScroll('right')" onmouseleave="stopScroll()">&gt;
+  </div>
+
+  <script>
+
+    let scrollInterval;
+    let isScrolling = false;
+    let scrollAmount = 5; // Adjust the scroll amount as needed
+    let scrollSpeed = 40; // Adjust the scroll speed (interval) as needed
+    
+      function startScroll(direction) {
+        if (isScrolling) return;
+        isScrolling = true;
+        const genusContainer = document.querySelector('.genus-container');
+        clearInterval(scrollInterval);
+    
+        if (direction === 'left') {
+          scrollInterval = setInterval(() => {
+            genusContainer.scrollLeft -= scrollAmount;
+            if (genusContainer.scrollLeft <= 0) {
+              genusContainer.scrollLeft = genusContainer.scrollWidth;
+            }
+          }, scrollSpeed);
+        } else if (direction === 'right') {
+          scrollInterval = setInterval(() => {
+            genusContainer.scrollLeft += scrollAmount;
+            if (genusContainer.scrollLeft >= genusContainer.scrollWidth - genusContainer.clientWidth) {
+              genusContainer.scrollLeft = 0;
+            }
+          }, scrollSpeed);
+        }
+      }
+    
+      const arrows = document.querySelectorAll('.arrow');
+      arrows.forEach(arrow => {
+        arrow.addEventListener('mouseenter', function() {
+          const genusContainer = document.querySelector('.genus-container');
+          if (arrow.classList.contains('arrow-left')) {
+            genusContainer.classList.add('slide-left');
+            startScroll('left');
+          } else if (arrow.classList.contains('arrow-right')) {
+            genusContainer.classList.add('slide-right');
+            startScroll('right');
+          }
+        });
+        arrow.addEventListener('mouseleave', function() {
+          const genusContainer = document.querySelector('.genus-container');
+          genusContainer.classList.remove('slide-left', 'slide-right');
+          stopScroll();
+        });
+      });
+      
+  </script>
+
+{% endblock %}
+
+
+
+

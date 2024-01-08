@@ -4,7 +4,7 @@ from .models import Genus
 
 def archives(request):
     genus_list = Genus.objects.all()
-    return render(request, 'archives/archives.html', {'genus_list': genus_list})
+    return render(request, 'archives.html', {'genus_list': genus_list})
 
 def search(request):
     query = request.GET.get('query', '')  # Get the search query from the request

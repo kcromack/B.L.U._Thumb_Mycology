@@ -34,11 +34,11 @@ def register(request):
             login(request, user)
 
             messages.success(request, f'Welcome to B.L.U. Thumb Mycology. An Account was created for {user.username}.')
-            return redirect('mycospace') 
+            return redirect('templates/mycospace') 
 
     return render(request, 'register.html', {'form': form})
 
-def user_login(request):
+def login(request):
     if request.user.is_authenticated:
         return redirect('mycospace')
 
@@ -53,7 +53,7 @@ def user_login(request):
             return redirect('mycospace')
     
     # If it's a GET request or authentication failed, render the arc_home.html template
-    return render(request, 'archives.html')
+    return render(request, 'login.html')
 
 @login_required
 def mycospace(request):
