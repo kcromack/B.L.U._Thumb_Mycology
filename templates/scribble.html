@@ -1,0 +1,93 @@
+<script>
+    function toggleHamMenu() {
+      const hamMenuContainer = document.querySelector('.hamburger-menu-container');
+      const hamburgerBars = document.querySelectorAll('.bar');
+    
+      hamburgerBars.forEach(bar => {
+        bar.addEventListener('mouseenter', function() {
+          hamMenuContainer.style.width = '95%';
+          hamMenuContainer.style.display = 'flex';
+          hamMenuContainer.style.right = '10px';
+          hamburgerBars.forEach(bar => {
+            bar.style.right = '210px';
+          });
+        });
+      });
+    
+      hamMenuContainer.addEventListener('mouseleave', function() {
+        hamMenuContainer.style.width = '0px';
+        hamMenuContainer.style.display = 'none';
+        hamMenuContainer.style.right = '10px';
+        hamburgerBars.forEach(bar => {
+          bar.style.right = '35px';
+        });
+      });
+    }
+    
+    function toggleMenu() {
+      const menuLinks = document.querySelectorAll('.menu a');
+      const popMenuContainer = document.querySelector('.pop_menu-container');
+      let timeout;
+    
+      function setMenuItems(items) {
+        popMenuContainer.innerHTML = '';
+        items.forEach(item => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#';
+          a.textContent = item;
+          li.appendChild(a);
+          popMenuContainer.appendChild(li);
+        });
+      }
+    
+      menuLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+          clearTimeout(timeout);
+          let items = [];
+          switch (link.textContent.trim()) {
+            case 'Notifications':
+              items = ['Messages', 'Active Posts'];
+              break;
+            case 'Create':
+              items = ['Messages', 'Topic', 'Grow Log Entry'];
+              break;
+            case 'Browse':
+              items = ['Forum', 'Recent Entries'];
+              break;
+            default:
+              break;
+          }
+          setMenuItems(items);
+    
+          // Display the menu immediately
+          popMenuContainer.style.display = 'flex';
+    
+          // Clear any existing timeout to prevent hiding the menu
+          clearTimeout(timeout);
+        });
+    
+        link.addEventListener('mouseleave', function() {
+          // Set a timeout to hide the menu after 3 seconds if the mouse is not over the popMenuContainer
+          timeout = setTimeout(() => {
+            popMenuContainer.style.display = 'none';
+          }, 3000);
+        });
+      });
+    
+      // Keep popMenuContainer visible when the mouse is within its boundaries
+      popMenuContainer.addEventListener('mouseenter', function() {
+        clearTimeout(timeout); // Clear the timeout to keep the menu visible
+      });
+    
+      // Hide popMenuContainer when the mouse leaves its boundaries
+      popMenuContainer.addEventListener('mouseleave', function() {
+        popMenuContainer.style.display = 'none';
+      });
+    }
+    
+    // Initialize the functions
+    toggleHamMenu();
+    toggleMenu();
+    </script>
+    

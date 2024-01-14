@@ -280,7 +280,6 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, .5);
       z-index: 1;
       overflow: hidden;
-      transition: all .3s ease;
       width: 30%;
       height: auto;
       padding: 20px 0;
@@ -291,12 +290,12 @@
     .pop_menu-container li {
         list-style-type: none;
         text-align: center;
-        margin-bottom: 10px;
+        margin: 0, 10%;
+        width: 100%;
     }
-
     
     .pop_menu-container li a {
-        display: block;
+        display: inline-block;
         text-decoration: none;
         color: white;
         font-family: monospace;
@@ -305,7 +304,8 @@
         margin-bottom: 8px;
         padding: 8px 16px;
         border-radius: 10px;
-        width: auto;
+        width: 100%;
+        box-sizing: border-box;
         text-align: center;
         background-color: rgba(255, 255, 255, 0.1); 
     }
@@ -315,9 +315,6 @@
         background-color: rgba(255, 255, 255, 0.3); /* Change background color on hover for better feedback */
     }
 
-    .pop_menu-container:hover {
-      width: 100%;
-    }
 
     .pop_notifications_items li a:hover,
     .pop_create_items li a:hover, .pop_browse_items li a:hover {
@@ -417,108 +414,104 @@
 
 <script>
 
-function toggleHamMenu() {
-      const hamMenuContainer = document.querySelector('.hamburger-menu-container');
-      const hamburgerBars = document.querySelectorAll('.bar');
-
-      hamburgerBars.forEach(bar => {
-        bar.addEventListener('mouseenter', function() {
-          hamMenuContainer.style.width = '95%';
-          hamMenuContainer.style.display = 'flex';
-          hamMenuContainer.style.right = '10px';
-          hamburgerBars.forEach(bar => {
-            bar.style.right = '210px';
-          });
-        });
-      });
-
-      hamMenuContainer.addEventListener('mouseleave', function() {
-        hamMenuContainer.style.width = '0px';
-        hamMenuContainer.style.display = 'none';
+  function toggleHamMenu() {
+    const hamMenuContainer = document.querySelector('.hamburger-menu-container');
+    const hamburgerBars = document.querySelectorAll('.bar');
+  
+    hamburgerBars.forEach(bar => {
+      bar.addEventListener('mouseenter', function() {
+        hamMenuContainer.style.width = '95%';
+        hamMenuContainer.style.display = 'flex';
         hamMenuContainer.style.right = '10px';
         hamburgerBars.forEach(bar => {
-          bar.style.right = '35px';
+          bar.style.right = '210px';
         });
       });
-    }
-    function toggleMenu() {
-  const menuLinks = document.querySelectorAll('.menu a');
-  const popMenuContainer = document.querySelector('.pop_menu-container');
-  let timeout;
-
-  // Function to set items for pop_menu-container based on hovered menu item
-  function setMenuItems(items) {
-    // Clear existing items
-    popMenuContainer.innerHTML = '';
-    
-    // Create new list items and append to popMenuContainer
-    items.forEach(item => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = '#';  // Add appropriate href
-      a.textContent = item;
-      li.appendChild(a);
-      popMenuContainer.appendChild(li);
-      li.addEventListener('mouseenter', function() {
-        li.classList.add('hovered-item');
-      });
-      li.addEventListener('mouseleave', function() {
-        li.classList.remove('hovered-item');
+    });
+  
+    hamMenuContainer.addEventListener('mouseleave', function() {
+      hamMenuContainer.style.width = '0px';
+      hamMenuContainer.style.display = 'none';
+      hamMenuContainer.style.right = '10px';
+      hamburgerBars.forEach(bar => {
+        bar.style.right = '35px';
       });
     });
   }
-
-  menuLinks.forEach(link => {
-    link.addEventListener('mouseenter', function(event) {
-      clearTimeout(timeout);
-
-      // Determine items based on hovered link text
-      let items = [];
-      switch (link.textContent.trim()) {
-        case 'Notifications':
-          items = ['Messages', 'Active Posts'];
-          break;
-        case 'Create':
-          items = ['Messages', 'Topic', 'Grow Log Entry'];
-          break;
-        case 'Browse':
-          items = ['Forum', 'Recent Entries'];
-          break;
-        default:
-          break;
-      }
-
-      // Set items for pop_menu-container
-      setMenuItems(items);
-
-      // Get position and dimensions of the current link and pop_menu-container
-      const rect = link.getBoundingClientRect();
-      const menuItemWidth = rect.width;
-      const popMenuContainerWidth = popMenuContainer.offsetWidth;
-      const topPosition = rect.top - popMenuContainer.offsetHeight - 100; // Subtract container height and some margin
-      const leftPosition = rect.left + (menuItemWidth) - 275; // Center horizontally
-
-      // Set position and display the pop_menu-container
-      popMenuContainer.style.position = 'fixed';
-      popMenuContainer.style.top = `${topPosition}px`; 
-      popMenuContainer.style.left = `${leftPosition}px`; // Center horizontally
-
-      // Display the pop_menu-container after a slight delay
-      timeout = setTimeout(() => {
-        popMenuContainer.style.display = 'flex';
-      }, 200);
+  
+  function toggleMenu() {
+    const menuLinks = document.querySelectorAll('.menu a');
+    const popMenuContainer = document.querySelector('.pop_menu-container');
+    let menuTimeout;
+  
+    function setMenuItems(items) {
+      popMenuContainer.innerHTML = '';
+      items.forEach(item => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = item;
+        li.appendChild(a);
+        popMenuContainer.appendChild(li);
+      });
+    }
+  
+    menuLinks.forEach(link => {
+      link.addEventListener('mouseenter', function() {
+        clearTimeout(menuTimeout);
+        let items = [];
+        switch (link.textContent.trim()) {
+          case 'Notifications':
+            items = ['Messages', 'Active Posts'];
+            break;
+          case 'Create':
+            items = ['Messages', 'Topic', 'Grow Log Entry'];
+            break;
+          case 'Browse':
+            items = ['Forum', 'Recent Entries'];
+            break;
+          default:
+            break;
+        }
+        setMenuItems(items);
+  
+        const rect = link.getBoundingClientRect();
+        const menuItemWidth = rect.width;
+        const topPosition = rect.top - popMenuContainer.offsetHeight - 30;
+        const leftPosition = rect.left + menuItemWidth - 240;
+  
+        popMenuContainer.style.position = 'fixed';
+        popMenuContainer.style.top = `${topPosition}px`;
+        popMenuContainer.style.left = `${leftPosition}px`;
+  
+        popMenuContainer.style.display = 'flex'; // Show the menu immediately
+      });
+  
+      link.addEventListener('mouseleave', function() {
+        menuTimeout = setTimeout(() => {
+          popMenuContainer.style.display = 'none';
+        }, 3000); // Hide after 3 seconds if the mouse doesn't enter the popMenuContainer
+      });
     });
-
-    // Hide pop_menu-container on leaving the link
-    link.addEventListener('mouseleave', function() {
-      clearTimeout(timeout);
-      popMenuContainer.style.display = 'none';
+  
+    // Keep popMenuContainer visible when the mouse is within its boundaries
+    popMenuContainer.addEventListener('mouseenter', function() {
+      clearTimeout(menuTimeout); // Clear any timeout to keep the menu visible
     });
-  });
-
-  // Hide pop_menu-container when the mouse leaves it
-  popMenuContainer.addEventListener('mouseleave', function() {
-    popMenuContainer.style.display = 'none';
-  });
-}
+  
+    // Hide popMenuContainer when the mouse leaves its boundaries
+    popMenuContainer.addEventListener('mouseleave', function() {
+      menuTimeout = setTimeout(() => {
+        popMenuContainer.style.display = 'none';
+      }, 3000); // Hide after 3 seconds if the mouse doesn't enter the popMenuContainer
+    });
+  }
+  
+  // Initialize the functions
+  toggleHamMenu();
+  toggleMenu();
+  
 </script>
+
+  
+
